@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   motion,
   useMotionValue,
@@ -11,9 +11,17 @@ import { gsap } from '@/components/animations';
 import { ROUTES } from '@/constants';
 import { cn } from '@/utils';
 import heroEngineeringImage from '@/assets/images/hero-engineering.webp';
+import hero1 from '@/assets/images/hero1.jpg';
+import hero2 from '@/assets/images/hero2.jpg';
+import hero4 from '@/assets/images/hero4.jpg';
 
-const headingLines = ['Engineering', "Tomorrow's", 'Intelligence'];
-
+const headingLines = ['Engineering', 'Intelligence'];
+const heroImages = [
+  heroEngineeringImage,
+  hero1,
+  hero2,
+  hero4
+];
 const revealContainer = {
   hidden: {},
   visible: {
@@ -52,7 +60,7 @@ export function Hero() {
   const pointerY = useMotionValue(0);
   const springX = useSpring(pointerX, { stiffness: 70, damping: 24, mass: 0.25 });
   const springY = useSpring(pointerY, { stiffness: 70, damping: 24, mass: 0.25 });
-
+  const [currentImage, setCurrentImage] = useState(0);
   useEffect(() => {
     if (reduceMotion || !imageRef.current || !rootRef.current) {
       return undefined;
@@ -74,6 +82,14 @@ export function Hero() {
 
     return () => context.revert();
   }, [reduceMotion]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   function handlePointerMove(event) {
     if (reduceMotion || event.pointerType !== 'mouse' || window.innerWidth < 1024) {
@@ -111,13 +127,26 @@ export function Hero() {
         className="absolute inset-0 -z-base"
         style={{ x: springX, y: springY }}
       >
-        <img
+        <motion.img
+          key={currentImage}
           ref={imageRef}
+          src={heroImages[currentImage]}
           alt=""
-          className="size-full object-cover object-[58%_center] opacity-90 motion-reduce:scale-100 md:object-center"
           decoding="async"
           fetchPriority="high"
-          src={heroEngineeringImage}
+          className="size-full object-cover object-center opacity-90"
+          initial={{
+            opacity: 0,
+            scale: 1.08,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1.08,
+          }}
+          transition={{
+            duration: 1.5,
+            ease: [0.22, 1, 0.36, 1],
+          }}
         />
       </motion.div>
 
@@ -150,15 +179,15 @@ export function Hero() {
             className="font-body text-label text-text-inverse/76"
             variants={revealItem}
           >
-            Engineering Tomorrow&apos;s Intelligence
+            PREMIUM INTELLIGENT PRODUCTS
           </motion.p>
 
           <h1
             id="home-hero-title"
-            className="mt-space-24 font-display text-display-m text-text-inverse md:text-display-l xl:text-display-xl"
+            className="mt-space-24 font-display text-5xl md:text-6xl xl:text-7xl leading-[1.15] text-text-inverse"
           >
             {headingLines.map((line) => (
-              <span className="block overflow-hidden" key={line}>
+              <span className="" key={line}>
                 <motion.span className="block" variants={revealItem}>
                   {line}
                 </motion.span>
@@ -170,8 +199,7 @@ export function Hero() {
             className="mx-auto mt-space-32 max-w-prose font-body text-body-l text-text-inverse/74 lg:mx-0"
             variants={revealItem}
           >
-            STIMULAI builds intelligent engineering solutions across movement,
-            automation, environmental systems, and human-centered technology.
+            Engineered for today. Designed for tomorrow. Built to inspire every journey.
           </motion.p>
 
           <motion.div
@@ -198,7 +226,7 @@ export function Hero() {
               )}
               to={ROUTES.PRODUCTS}
             >
-              Discover RCX
+              Meet RCX
             </Link>
           </motion.div>
         </motion.div>

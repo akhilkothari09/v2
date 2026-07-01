@@ -56,7 +56,7 @@ export function MobileMenu({ isOpen, items, onClose }) {
             type="button"
           />
           <motion.div
-            className="absolute right-0 top-0 flex h-dvh w-full max-w-[28rem] flex-col border-l border-text-inverse/10 bg-surface-inverse/95 px-container-sm py-space-24 text-text-inverse shadow-elevated backdrop-blur-[var(--motion-blur-soft)]"
+            className="absolute right-0 top-0 flex h-dvh w-full max-w-[28rem] flex-col border-l bg-surface-inverse/95 px-container-sm py-space-24 text-text-inverse shadow-elevated backdrop-blur-[var(--motion-blur-soft)]"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}

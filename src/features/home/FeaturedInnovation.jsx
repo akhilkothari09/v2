@@ -427,7 +427,7 @@ export function FeaturedInnovation() {
             </span>
             <span className="block overflow-hidden">
               <motion.span className="block" variants={revealItem}>
-                of STIMULAI Engineering.
+                of STIMULAI
               </motion.span>
             </span>
           </h2>

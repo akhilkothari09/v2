@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { cn } from '@/utils';
+import logo from '@/assets/images/logo.png';
 
 const sizeClass = {
   sm: 'text-navigation',
@@ -18,14 +19,7 @@ export function Logo({
 }) {
   const content = (
     <>
-      <span>STIMULAI</span>
-      <span
-        aria-hidden="true"
-        className={cn(
-          'ml-space-8 inline-block size-space-4 rounded-full transition-transform duration-medium ease-luxury group-hover:scale-hover',
-          inverse ? 'bg-text-inverse' : 'bg-accent',
-        )}
-      />
+      <img src={logo} alt="STIMULAI" className="h-4 w-auto object-contain"/>
     </>
   );
 
