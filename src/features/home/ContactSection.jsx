@@ -23,8 +23,8 @@ const contactDetails = [
   },
   {
     label: 'Phone',
-    value: '+91 80 0000 0000',
-    href: 'tel:+918000000000',
+    value: '+91 8860253376 ',
+    href: 'tel:+918860253376',
     icon: Phone,
   },
   {

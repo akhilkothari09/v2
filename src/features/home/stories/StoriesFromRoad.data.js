@@ -4,7 +4,7 @@ export const roadStories = [
     name: 'Shikher Gupta',
     rating: 5,
     review:
-      'The RCX changed my Tried a ride on this beautiful cycle. Almost feel weightless. Infact, it is a little too good, now my expensive gear cycle looks like a elephant in horse race 😀😬',
+      'Tried a ride on this beautiful cycle. Almost feel weightless. Infact, it is a little too good, now my expensive gear cycle looks like a elephant in horse race 😀😬',
   },
   {
     id: 2,
