@@ -17,8 +17,8 @@ import { cn } from '@/utils';
 const contactDetails = [
   {
     label: 'Email',
-    value: 'hello@stimulai.com',
-    href: 'mailto:hello@stimulai.com',
+    value: 'connect@stimulai.in',
+    href: 'mailto:connect@stimulai.in',
     icon: Mail,
   },
   {
