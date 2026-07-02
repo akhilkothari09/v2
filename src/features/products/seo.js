@@ -1,8 +1,8 @@
 import { ROUTES } from '@/constants';
 
 export const PRODUCTS_META = Object.freeze({
-  title: 'Products | STIMULAI',
+  title: 'RCX | STIMULAI',
   description:
-    'Explore STIMULAI products across sports engineering, advanced mobility, automation and robotics, and environmental sustainability.',
+    'Explore RCX, the STIMULAI carbon road platform with connected intelligence, precision components and integrated smart features.',
   canonicalPath: ROUTES.PRODUCTS,
 });

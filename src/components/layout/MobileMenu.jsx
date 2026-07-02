@@ -5,6 +5,18 @@ import { X } from 'lucide-react';
 import { cn } from '@/utils';
 import { Logo } from './Logo.jsx';
 
+function getIsMenuItemActive(item, isActive, location) {
+  if (item.hash) {
+    return location.pathname === '/' && location.hash === item.hash;
+  }
+
+  if (item.to === '/') {
+    return location.pathname === '/' && !location.hash;
+  }
+
+  return isActive;
+}
+
 export function MobileMenu({ isOpen, items, onClose }) {
   const closeButtonRef = useRef(null);
   const location = useLocation();
@@ -34,7 +46,7 @@ export function MobileMenu({ isOpen, items, onClose }) {
 
   useEffect(() => {
     onClose();
-  }, [location.pathname, onClose]);
+  }, [location.hash, location.pathname, onClose]);
 
   return (
     <AnimatePresence>
@@ -83,7 +95,7 @@ export function MobileMenu({ isOpen, items, onClose }) {
                       className={({ isActive }) =>
                         cn(
                           'block border-b border-text-inverse/10 py-space-16 font-heading text-heading-s text-text-inverse transition-ui duration-medium ease-luxury hover:text-accent focus-visible:outline-none focus-visible:shadow-focus',
-                          isActive && 'text-accent',
+                          getIsMenuItemActive(item, isActive, location) && 'text-accent',
                         )
                       }
                       end={item.to === '/'}

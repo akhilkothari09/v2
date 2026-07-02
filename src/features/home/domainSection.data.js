@@ -10,7 +10,6 @@ export const DOMAIN_SECTION_ITEMS = Object.freeze([
     title: 'Engineering Human Performance.',
     description:
       'Develop intelligent products that enhance athletic performance using sensors, data intelligence, biomechanics and precision engineering.',
-    metaLabel: 'Possible Future Products',
     meta: ['Smart Bicycle', 'Cycling Computer', 'Performance Sensors', 'Wearables', 'Smart Helmets'],
     image: sportsImage,
     imageAlt:
@@ -22,7 +21,6 @@ export const DOMAIN_SECTION_ITEMS = Object.freeze([
     title: 'Engineering Future Mobility.',
     description:
       'Design intelligent mobility platforms that connect hardware, software and artificial intelligence for safer and smarter transportation.',
-    metaLabel: 'Featured Innovation',
     meta: ['RCX Smart Bicycle', 'Smart Navigation', 'Connected Vehicles', 'Mobility Platforms', 'Route Intelligence'],
     image: advancedMobilityImage,
     imageAlt:
@@ -34,7 +32,6 @@ export const DOMAIN_SECTION_ITEMS = Object.freeze([
     title: 'Engineering Autonomous Systems.',
     description:
       'Create robotic and automated systems capable of sensing, learning and making intelligent decisions.',
-    metaLabel: 'Future Areas',
     meta: ['Industrial Robotics', 'AI Vision', 'Automation', 'Embedded Systems', 'Robotic Intelligence'],
     image: roboticsImage,
     imageAlt:
@@ -46,7 +43,6 @@ export const DOMAIN_SECTION_ITEMS = Object.freeze([
     title: 'Engineering a Sustainable Future.',
     description:
       'Build intelligent technologies that help industries monitor, optimise and preserve environmental resources.',
-    metaLabel: 'Future Areas',
     meta: ['Smart Monitoring', 'Renewable Energy', 'Environmental Intelligence', 'IoT', 'Sustainability Platforms'],
     image: sustainabilityImage,
     imageAlt:

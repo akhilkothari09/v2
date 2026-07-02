@@ -30,8 +30,22 @@ function writePosition(key) {
   return undefined;
 }
 
+function getHashTarget(hash) {
+  if (!hash) {
+    return null;
+  }
+
+  const targetId = hash.slice(1);
+
+  try {
+    return document.getElementById(decodeURIComponent(targetId));
+  } catch {
+    return document.getElementById(targetId);
+  }
+}
+
 export function ScrollRestoration() {
-  const { pathname, search } = useLocation();
+  const { hash, pathname, search } = useLocation();
   const navigationType = useNavigationType();
 
   useEffect(() => {
@@ -59,6 +73,38 @@ export function ScrollRestoration() {
   }, [pathname, search]);
 
   useLayoutEffect(() => {
+    if (hash) {
+      let frame = 0;
+      let timeout = 0;
+      let attempts = 0;
+
+      function scrollToHashTarget() {
+        const target = getHashTarget(hash);
+
+        if (target) {
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          target.scrollIntoView({
+            block: 'start',
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          });
+          return;
+        }
+
+        if (attempts < 12) {
+          attempts += 1;
+          timeout = window.setTimeout(scrollToHashTarget, 50);
+        }
+      }
+
+      frame = window.requestAnimationFrame(scrollToHashTarget);
+
+      return () => {
+        window.cancelAnimationFrame(frame);
+        window.clearTimeout(timeout);
+      };
+    }
+
     const key = getStorageKey(pathname, search);
     const savedPosition = navigationType === 'POP' ? readPosition(key) : null;
 
@@ -67,7 +113,8 @@ export function ScrollRestoration() {
       top: savedPosition?.top ?? 0,
       behavior: 'auto',
     });
-  }, [navigationType, pathname, search]);
+    return undefined;
+  }, [hash, navigationType, pathname, search]);
 
   return null;
 }

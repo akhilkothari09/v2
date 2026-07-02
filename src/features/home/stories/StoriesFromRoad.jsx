@@ -1,15 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/utils';
-import { Lightbox } from './Lightbox.jsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ReviewCard } from './ReviewCard.jsx';
 import { roadStories } from './StoriesFromRoad.data.js';
-
-const filterOptions = [
-  { id: 'latest', label: 'Latest' },
-  { id: 'rating', label: 'Highest Rated' },
-  { id: 'distance', label: 'Longest Ride' },
-];
 
 const revealContainer = {
   hidden: {},
@@ -38,61 +31,121 @@ const revealItem = {
   },
 };
 
-function sortReviews(reviews, sortMode) {
-  return [...reviews].sort((first, second) => {
-    if (sortMode === 'rating') {
-      return second.rating - first.rating || Date.parse(second.rideSortDate) - Date.parse(first.rideSortDate);
-    }
+function getLoopedIndex(index, total) {
+  return (index + total) % total;
+}
 
-    if (sortMode === 'distance') {
-      return (second.rideDistanceKm ?? 0) - (first.rideDistanceKm ?? 0);
-    }
-
-    return Date.parse(second.rideSortDate) - Date.parse(first.rideSortDate);
-  });
+function getPrefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 export function StoriesSection({ reviews = roadStories }) {
-  const [activeFilter, setActiveFilter] = useState('latest');
-  const [activeCity, setActiveCity] = useState('all');
-  const [lightbox, setLightbox] = useState({
-    initialIndex: 0,
-    isOpen: false,
-    images: [],
-    title: '',
-  });
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+  const cardRefs = useRef([]);
+  const activeIndexRef = useRef(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const totalReviews = reviews.length;
 
-  const cityOptions = useMemo(
-    () => [...new Set(reviews.map((review) => review.city).filter(Boolean))],
-    [reviews],
-  );
+  const setActiveReviewIndex = useCallback((index) => {
+    const nextIndex = getLoopedIndex(index, totalReviews);
 
-  const visibleReviews = useMemo(() => {
-    const cityFilteredReviews =
-      activeCity === 'all'
-        ? reviews
-        : reviews.filter((review) => review.city === activeCity);
+    if (activeIndexRef.current === nextIndex) {
+      return;
+    }
 
-    return sortReviews(cityFilteredReviews, activeFilter).slice(0, 3);
-  }, [activeCity, activeFilter, reviews]);
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+  }, [totalReviews]);
 
-  const openLightbox = useCallback((review, imageIndex) => {
-    setLightbox({
-      initialIndex: imageIndex,
-      isOpen: true,
-      images: review.bicycleImages,
-      title: `${review.name}'s RCX ride`,
+  const updateActiveFromNativeScroll = useCallback(() => {
+    const viewport = viewportRef.current;
+
+    if (!viewport) {
+      return;
+    }
+
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    const viewportCenter = viewport.scrollLeft + viewport.clientWidth * 0.5;
+
+    cardRefs.current.forEach((card, index) => {
+      if (!card) {
+        return;
+      }
+
+      const cardCenter = card.offsetLeft + card.offsetWidth * 0.5;
+      const distance = Math.abs(cardCenter - viewportCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
     });
-  }, []);
 
-  const closeLightbox = useCallback(() => {
-    setLightbox((state) => ({ ...state, isOpen: false }));
-  }, []);
+    setActiveReviewIndex(closestIndex);
+  }, [setActiveReviewIndex]);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+
+    if (!viewport) {
+      return undefined;
+    }
+
+    let frame = 0;
+
+    function updateReviewFrame() {
+      updateActiveFromNativeScroll();
+      frame = 0;
+    }
+
+    function requestReviewFrame() {
+      if (!frame) {
+        frame = window.requestAnimationFrame(updateReviewFrame);
+      }
+    }
+
+    requestReviewFrame();
+    window.addEventListener('resize', requestReviewFrame);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', requestReviewFrame);
+    };
+  }, [updateActiveFromNativeScroll]);
+
+  function moveToReviewIndex(index) {
+    const nextIndex = getLoopedIndex(index, totalReviews);
+    const viewport = viewportRef.current;
+    const targetCard = cardRefs.current[nextIndex];
+    const prefersReducedMotion = getPrefersReducedMotion();
+
+    setActiveReviewIndex(nextIndex);
+
+    if (viewport && targetCard) {
+      viewport.scrollTo({
+        left: targetCard.offsetLeft - (viewport.clientWidth - targetCard.clientWidth) * 0.5,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      });
+    }
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      moveToReviewIndex(activeIndexRef.current - 1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      moveToReviewIndex(activeIndexRef.current + 1);
+    }
+  }
 
   return (
     <section
       aria-labelledby="stories-from-road-title"
-      className="relative isolate overflow-hidden bg-surface-inverse px-container-sm py-section-lg text-text-inverse md:px-container-md lg:px-container-lg"
+      className="relative isolate overflow-hidden bg-surface-inverse py-section-lg text-text-inverse"
+      onKeyDown={handleKeyDown}
     >
       <div
         aria-hidden="true"
@@ -112,10 +165,10 @@ export function StoriesSection({ reviews = roadStories }) {
         className="mx-auto max-w-container"
         initial="hidden"
         variants={revealContainer}
-        viewport={{ once: true, amount: 0.24 }}
+        viewport={{ once: true, amount: 0.18 }}
         whileInView="visible"
       >
-        <div className="grid gap-space-40 border-b border-text-inverse/12 pb-space-40 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="mx-auto grid w-full max-w-container gap-space-24 pb-space-32 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end px-container-sm md:px-container-md lg:px-container-lg">
           <motion.header className="max-w-[48rem]" variants={revealItem}>
             <p className="font-body text-label text-accent">RCX Community</p>
             <h2
@@ -132,70 +185,60 @@ export function StoriesSection({ reviews = roadStories }) {
           </motion.header>
 
           <motion.div
-            aria-label="Filter rider stories"
-            className="flex flex-col gap-space-12 sm:flex-row sm:items-center lg:justify-end"
+            aria-label="Reviews navigation controls"
+            className="flex items-center gap-space-12 lg:justify-end"
             variants={revealItem}
           >
-            <div className="flex flex-wrap gap-space-8" role="group">
-              {filterOptions.map((option) => (
-                <button
-                  aria-pressed={activeFilter === option.id}
-                  className={cn(
-                    'min-h-control-sm border px-space-16 py-space-8 font-body text-button transition-ui duration-medium ease-luxury focus-visible:outline-none focus-visible:shadow-focus motion-reduce:transition-none',
-                    activeFilter === option.id
-                      ? 'border-accent bg-accent text-accent-contrast'
-                      : 'border-text-inverse/12 bg-text-inverse/[0.035] text-text-inverse/64 hover:border-accent hover:text-text-inverse',
-                  )}
-                  key={option.id}
-                  onClick={() => setActiveFilter(option.id)}
-                  type="button"
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-
-            <label className="sr-only" htmlFor="stories-city-filter">
-              Filter stories by city
-            </label>
-            <select
-              className="min-h-control-sm border border-text-inverse/12 bg-surface-inverse px-space-16 py-space-8 font-body text-button text-text-inverse/72 transition-ui duration-medium ease-luxury hover:border-accent focus-visible:outline-none focus-visible:shadow-focus"
-              id="stories-city-filter"
-              onChange={(event) => setActiveCity(event.target.value)}
-              value={activeCity}
+            <button
+              aria-label="Previous review"
+              className="inline-flex size-control-md items-center justify-center rounded-full border border-text-inverse/14 bg-text-inverse/[0.035] text-text-inverse transition-ui duration-medium ease-luxury hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:shadow-focus"
+              onClick={() => moveToReviewIndex(activeIndexRef.current - 1)}
+              type="button"
             >
-              <option value="all">All Cities</option>
-              {cityOptions.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
+              <ChevronLeft aria-hidden="true" className="size-icon-20" />
+            </button>
+            <p
+              aria-live="polite"
+              className="min-w-[4.5rem] text-center font-body text-caption text-text-inverse/58"
+            >
+              {String(activeIndex + 1).padStart(2, '0')} / {String(totalReviews).padStart(2, '0')}
+            </p>
+            <button
+              aria-label="Next review"
+              className="inline-flex size-control-md items-center justify-center rounded-full border border-text-inverse/14 bg-text-inverse/[0.035] text-text-inverse transition-ui duration-medium ease-luxury hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:shadow-focus"
+              onClick={() => moveToReviewIndex(activeIndexRef.current + 1)}
+              type="button"
+            >
+              <ChevronRight aria-hidden="true" className="size-icon-20" />
+            </button>
           </motion.div>
         </div>
 
         <motion.div
-          className="mt-space-48 grid gap-space-24 md:grid-cols-2 lg:grid-cols-1 lg:gap-space-32"
-          variants={revealContainer}
+          ref={viewportRef}
+          aria-label="StimulAI reviews carousel"
+          aria-roledescription="carousel"
+          className="relative mt-space-40 flex-1 touch-pan-y overflow-x-hidden overflow-y-hidden mx-auto w-full max-w-container px-container-sm pb-space-16 md:px-container-md lg:px-container-lg"
+          onScroll={updateActiveFromNativeScroll}
+          tabIndex={0}
+          variants={revealItem}
         >
-          {visibleReviews.map((review, index) => (
-            <ReviewCard
-              index={index}
-              key={review.id}
-              onImageOpen={openLightbox}
-              review={review}
-            />
-          ))}
+          <div
+            ref={trackRef}
+            className="flex w-max items-stretch gap-space-24 will-change-transform pb-space-8"
+          >
+            {reviews.map((review, index) => (
+              <ReviewCard
+                key={review.id}
+                ref={(node) => {
+                  cardRefs.current[index] = node;
+                }}
+                review={review}
+              />
+            ))}
+          </div>
         </motion.div>
       </motion.div>
-
-      <Lightbox
-        images={lightbox.images}
-        initialIndex={lightbox.initialIndex}
-        isOpen={lightbox.isOpen}
-        onClose={closeLightbox}
-        title={lightbox.title}
-      />
     </section>
   );
 }

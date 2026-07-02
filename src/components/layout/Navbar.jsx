@@ -1,20 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+
 import { Menu } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { cn } from '@/utils';
 import { Logo } from './Logo.jsx';
 import { MobileMenu } from './MobileMenu.jsx';
 import { PRIMARY_NAV_ITEMS } from './navigation.js';
 
 function useNavbarScrollState() {
-  const [state, setState] = useState({
-    isHidden: false,
-    isScrolled: false,
-  });
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
     let frame = 0;
 
     function update() {
@@ -48,28 +44,39 @@ function useNavbarScrollState() {
     };
   }, []);
 
-  return state;
+  return isScrolled;
+}
+
+function getIsNavItemActive(item, isActive, location) {
+  if (item.hash) {
+    return location.pathname === '/' && location.hash === item.hash;
+  }
+
+  if (item.to === '/') {
+    return location.pathname === '/' && !location.hash;
+  }
+
+  return isActive;
 }
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isHidden, isScrolled } = useNavbarScrollState();
+  const location = useLocation();
+  const isScrolled = useNavbarScrollState();
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   return (
     <>
-      <motion.header
+      <header
         className={cn(
           'fixed inset-x-0 top-0 z-sticky h-navbar border-b text-text-inverse transition-surface duration-medium ease-luxury',
           isScrolled
             ? 'border-text-inverse/10 bg-surface-inverse/90 shadow-hairline backdrop-blur-[var(--motion-blur-soft)]'
             : 'border-transparent bg-surface-inverse/40',
         )}
-        animate={{ y: isHidden && !isMenuOpen ? '-100%' : '0%' }}
-        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="mx-auto flex h-full w-full max-w-container items-center justify-between px-2 md:px-4 lg:px-6">
-          <Logo inverse className="-ml-6" />
+        <div className="mx-auto flex h-full w-full max-w-container items-center justify-between px-container-sm md:px-container-md lg:px-container-lg">
+          <Logo inverse />
 
           <div className="ml-auto flex items-center">
             <nav aria-label="Primary navigation" className="hidden lg:block">
@@ -77,13 +84,16 @@ export function Navbar() {
                 {PRIMARY_NAV_ITEMS.map((item) => (
                   <li key={item.to}>
                     <NavLink
-                      className={({ isActive }) =>
-                        cn(
-                          'font-body text-navigation text-text-inverse/70 transition-ui duration-medium ease-luxury hover:text-text-inverse focus-visible:outline-none focus-visible:shadow-focus',
-                          isActive && 'text-text-inverse',
-                        )
-                      }
+                      className="font-body text-navigation text-text-inverse/70 transition-ui duration-medium ease-luxury hover:text-text-inverse focus-visible:outline-none focus-visible:shadow-focus"
                       end={item.to === '/'}
+                      style={({ isActive }) =>
+                        getIsNavItemActive(item, isActive, location)
+                          ? {
+                            color: 'rgb(183, 24, 43)',
+                            textShadow: '0 0 12px rgba(183,24,43,0.7), 0 0 28px rgba(183,24,43,0.35)',
+                          }
+                          : undefined
+                      }
                       to={item.to}
                     >
                       {item.label}
@@ -113,8 +123,8 @@ export function Navbar() {
               </button>
             </div>
           </div>
-        </div> 
-      </motion.header>
+        </div>
+      </header>
 
       <MobileMenu isOpen={isMenuOpen} items={PRIMARY_NAV_ITEMS} onClose={closeMenu} />
     </>

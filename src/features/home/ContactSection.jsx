@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   ArrowRight,
   CheckCircle2,
+  Github,
   Instagram,
   Linkedin,
   Mail,
@@ -16,20 +17,20 @@ import { cn } from '@/utils';
 const contactDetails = [
   {
     label: 'Email',
-    value: 'akhil@stimulai.in',
-    href: 'mailto:akhil@stimulai.in',
+    value: 'hello@stimulai.com',
+    href: 'mailto:hello@stimulai.com',
     icon: Mail,
   },
   {
     label: 'Phone',
-    value: '+91 XXXXX XXXXX',
-    href: '#',
+    value: '+91 80 0000 0000',
+    href: 'tel:+918000000000',
     icon: Phone,
   },
   {
     label: 'Office',
     value: 'Arcadia, South City II, Sector 49, Gurugram, Haryana 122018',
-    href: 'https://www.google.com/maps/place/Arcadia/@28.417859,77.0516044,18.45z/data=!4m7!3m6!1s0x390d228134971287:0xe77da5f872097137!4b1!8m2!3d28.4180517!4d77.0523116!16s%2Fg%2F11x91qgbmg?entry=ttu&g_ep=EgoyMDI2MDYyNC4wIKXMDSoASAFQAw%3D%3D',
+    href: 'https://www.google.com/maps/@28.4181012,77.0498815,18z?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D',
     icon: MapPin,
   },
 ];
@@ -166,19 +167,63 @@ export function ContactCard() {
         <SocialLinks />
       </div>
 
-<div className="mt-space-32 overflow-hidden rounded-xl border border-text-inverse/10">
-  <iframe
-    title="STIMULAI Office"
-    src="https://www.google.com/maps?q=28.4180517,77.0523116&z=17&output=embed"
-    width="100%"
-    height="420"
-    style={{ border: 0 }}
-    loading="lazy"
-    allowFullScreen
-    referrerPolicy="no-referrer-when-downgrade"
-    className="w-full"
-  />
-</div>
+      <div className="mt-space-32 grid gap-space-24">
+        {contactDetails.map(({ href, icon: Icon, label, value }) => (
+          <a
+            className="group grid grid-cols-[auto_1fr] gap-space-16 border-t border-text-inverse/12 pt-space-20 focus-visible:outline-none focus-visible:shadow-focus"
+            href={href}
+            key={label}
+            rel={label === 'Office' ? 'noreferrer' : undefined}
+            target={label === 'Office' ? '_blank' : undefined}
+          >
+            <Icon
+              aria-hidden="true"
+              className="mt-space-4 size-icon-20 text-accent transition-transform duration-medium ease-luxury group-hover:scale-110"
+            />
+            <span>
+              <span className="block font-body text-caption text-text-inverse/44">{label}</span>
+              <span className="mt-space-4 block font-body text-body-small text-text-inverse/72 transition-colors duration-medium ease-luxury group-hover:text-text-inverse">
+                {value}
+              </span>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <div className="mt-space-32 overflow-hidden border border-text-inverse/10 bg-surface-inverse">
+        <div className="relative aspect-[16/9]">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_52%_46%,rgb(183_24_43/0.2),transparent_22%),linear-gradient(135deg,rgb(255_255_255/0.08),transparent_42%)]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 opacity-[0.16]"
+            style={{
+              backgroundImage:
+                'linear-gradient(0deg, rgb(255 255 255 / 0.18) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.12) 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }}
+          />
+          <div className="absolute inset-0 grid place-items-center p-space-24 text-center">
+            <div>
+              <MapPin aria-hidden="true" className="mx-auto size-icon-24 text-accent" />
+              <p className="mt-space-12 font-body text-caption text-text-inverse/58">
+                Google Maps placeholder
+              </p>
+              <p className="mt-space-4 font-body text-body-small text-text-inverse/76">
+                Arcadia, South City II
+                <br />
+                Sector 49, Gurugram
+              </p>
+
+              <span className="mt-space-6 inline-block rounded-full border border-accent px-4 py-2 text-xs text-accent">
+                Open in Google Maps →
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.aside>
   );
 }

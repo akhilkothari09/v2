@@ -2,6 +2,7 @@ export { ContactSection } from './ContactSection.jsx';
 export { DomainsSection } from './DomainsSection.jsx';
 export { EngineeringExperience } from './EngineeringExperience.jsx';
 export { FeaturedInnovation } from './FeaturedInnovation.jsx';
+export { GalleryCarousel } from './GalleryCarousel.jsx';
 export { Hero } from './Hero.jsx';
 export { HomePage } from './HomePage.jsx';
 export { HOME_META } from './seo.js';

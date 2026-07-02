@@ -7,12 +7,12 @@ export function Footer() {
     <footer className="relative isolate overflow-hidden border-t border-text-inverse/10 bg-surface-inverse text-text-inverse">
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-base bg-[radial-gradient(circle_at_18%_10%,rgb(183_24_43/0.12),transparent_24%),radial-gradient(circle_at_86%_72%,rgb(255_255_255/0.06),transparent_28%)]"
+        className="pointer-events-none absolute inset-0 -z-base bg-[radial-gradient(circle_at_18%_10%,rgb(183_24_43/0.12),transparent_24%),radial-gradient(circle_at_86%_72%,rgb(255_255_255/0.06),transparent_28%)]"
       />
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-base opacity-[0.07] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 -z-base opacity-[0.07] mix-blend-overlay"
         style={{
           backgroundImage:
             'linear-gradient(0deg, rgb(255 255 255 / 0.16) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px)',
@@ -20,7 +20,7 @@ export function Footer() {
         }}
       />
 
-      <div className="mx-auto max-w-container px-container-sm py-section-lg md:px-container-md lg:px-container-lg">
+      <div className="mx-auto max-w-container px-container-sm py-section-sm md:px-container-md lg:px-container-lg">
 
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
 

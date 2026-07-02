@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants';
 import { DOMAIN_SECTION_ITEMS } from './domainSection.data.js';
@@ -31,7 +30,7 @@ const revealItem = {
   },
 };
 
-function DomainSegmentCard({ domain, index }) {
+function DomainSegmentCard({ domain }) {
   return (
     <motion.article
       className="group h-full overflow-hidden border border-text-inverse/10 bg-text-inverse/[0.035] transition-ui duration-medium ease-luxury hover:border-accent/60 hover:bg-text-inverse/[0.055]"
@@ -60,9 +59,6 @@ function DomainSegmentCard({ domain, index }) {
 
         <div className="flex flex-1 flex-col justify-between gap-space-32 p-space-20">
           <div>
-            <p className="font-body text-caption text-text-inverse/42">
-              {String(index + 1).padStart(2, '0')}
-            </p>
             <h3 className="mt-space-16 min-h-[3.5rem] font-heading text-heading-s text-text-inverse transition-colors duration-medium ease-luxury group-hover:text-accent">
               {domain.eyebrow}
             </h3>
@@ -76,10 +72,7 @@ function DomainSegmentCard({ domain, index }) {
 
           <span className="inline-flex items-center gap-space-12 font-body text-caption text-text-inverse/52 transition-colors duration-medium ease-luxury group-hover:text-accent">
             <span>{domain.metaLabel}</span>
-            <ArrowRight
-              aria-hidden="true"
-              className="size-icon-16 transition-transform duration-medium ease-luxury group-hover:translate-x-space-4"
-            />
+
           </span>
         </div>
       </Link>
@@ -91,7 +84,7 @@ export function DomainSegments() {
   return (
     <section
       aria-labelledby="domain-segments-title"
-      className="relative isolate overflow-hidden bg-surface-inverse px-container-sm py-section-lg text-text-inverse md:px-container-md lg:px-container-lg"
+      className="relative isolate overflow-hidden bg-surface-inverse py-section-lg text-text-inverse"
     >
       <div
         aria-hidden="true"
@@ -108,7 +101,7 @@ export function DomainSegments() {
       />
 
       <motion.div
-        className="mx-auto max-w-container"
+        className="mx-auto max-w-container px-container-sm md:px-container-md lg:px-container-lg"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.18 }}

@@ -543,7 +543,7 @@ export function EngineeringExperience() {
 
       <div className="mx-auto max-w-container">
         <motion.header
-          className="grid gap-space-40 border-b border-text-inverse/12 pb-section-sm lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end"
+          className="grid gap-space-40 pb-section-sm lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.35 }}
