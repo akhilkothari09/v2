@@ -282,104 +282,6 @@ export function ContactForm() {
       setValues(initialValues);
     }, 700);
   }
-
-  return (
-    <motion.form
-      className="border border-text-inverse/10 bg-surface-inverse/72 p-space-24 shadow-elevated backdrop-blur-[var(--motion-blur-soft)] md:p-space-32"
-      noValidate
-      onSubmit={handleSubmit}
-      variants={revealItem}
-    >
-      <div className="grid gap-space-24">
-        <div>
-          <label className="font-body text-label text-text-inverse" htmlFor="contact-name">
-            Name
-          </label>
-          <input {...getFieldProps('name')} autoComplete="name" placeholder="Your name" />
-          {errors.name ? (
-            <p className="mt-space-8 font-body text-caption text-error" id="contact-name-error">
-              {errors.name}
-            </p>
-          ) : null}
-        </div>
-
-        <div className="grid gap-space-24 md:grid-cols-2">
-          <div>
-            <label className="font-body text-label text-text-inverse" htmlFor="contact-email">
-              Email
-            </label>
-            <input
-              {...getFieldProps('email')}
-              autoComplete="email"
-              inputMode="email"
-              placeholder="you@example.com"
-              type="email"
-            />
-            {errors.email ? (
-              <p className="mt-space-8 font-body text-caption text-error" id="contact-email-error">
-                {errors.email}
-              </p>
-            ) : null}
-          </div>
-
-          <div>
-            <label className="font-body text-label text-text-inverse" htmlFor="contact-company">
-              Company
-            </label>
-            <input
-              {...getFieldProps('company')}
-              autoComplete="organization"
-              placeholder="Company or lab"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="font-body text-label text-text-inverse" htmlFor="contact-message">
-            Message
-          </label>
-          <textarea
-            {...getFieldProps('message')}
-            className={cn(getFieldProps('message').className, 'min-h-space-160 resize-y')}
-            placeholder="Tell us what you want to build."
-          />
-          {errors.message ? (
-            <p className="mt-space-8 font-body text-caption text-error" id="contact-message-error">
-              {errors.message}
-            </p>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="mt-space-32 flex flex-col gap-space-16 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          aria-busy={isSubmitting}
-          className="inline-flex h-control-lg items-center justify-center rounded-full border border-text-inverse bg-text-inverse px-space-24 font-body text-button text-text-primary transition-ui duration-medium ease-luxury hover:bg-transparent hover:text-text-inverse focus-visible:outline-none focus-visible:shadow-focus disabled:pointer-events-none disabled:opacity-disabled"
-          disabled={isSubmitting}
-          type="submit"
-        >
-          {isSubmitting ? 'Sending...' : 'Send Message'}
-        </button>
-
-        <div aria-live="polite" className="min-h-space-24">
-          {isSuccess ? (
-            <p className="inline-flex items-center gap-space-8 font-body text-caption text-success">
-              <CheckCircle2 aria-hidden="true" className="size-icon-16" />
-              Message received. We will respond shortly.
-            </p>
-          ) : hasErrors ? (
-            <p className="font-body text-caption text-error">
-              Please review the highlighted fields.
-            </p>
-          ) : (
-            <p className="font-body text-caption text-text-inverse/42">
-              We review every serious collaboration request.
-            </p>
-          )}
-        </div>
-      </div>
-    </motion.form>
-  );
 }
 
 export function ContactSection() {
@@ -403,22 +305,27 @@ export function ContactSection() {
       />
 
       <motion.div
-        className="mx-auto grid max-w-container gap-space-64 lg:grid-cols-[0.92fr_1.08fr] lg:items-start"
+        className="mx-auto grid max-w-[1600px] gap-space-64 lg:grid-cols-[1.3fr_0.7fr] lg:items-start"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.24 }}
         variants={revealContainer}
       >
-        <div className="grid gap-space-40">
+        <div className="grid gap-space-40 max-w-[760px]">
           <motion.div variants={revealItem}>
             <p className="font-body text-label text-accent">Connect</p>
             <h2
-              className="mt-space-20 font-display text-display-m text-text-inverse md:text-display-l"
               id="home-contact-title"
+              className="
+                mt-5
+                font-display
+                text-white
+                text-[84px]
+                leading-[0.9]
+                tracking-[-0.04em]
+                whitespace-nowrap"
             >
-              <span className="block">Let&apos;s Build</span>
-              <span className="block">The Future</span>
-              <span className="block">Together.</span>
+              <div>Let's Build The Future Together.</div>
             </h2>
             <p className="mt-space-32 max-w-prose font-body text-body-l text-text-inverse/68">
               Innovators, partners, customers and researchers are invited to
@@ -426,7 +333,9 @@ export function ContactSection() {
               systems.
             </p>
           </motion.div>
-
+<section
+  className="relative isolate overflow-hidden bg-surface-inverse py-section-lg"
+></section>
           <CTAGroup />
           <ContactCard />
         </div>
