@@ -21,6 +21,11 @@ export const appRoutes = [
     errorElement: <RouteErrorBoundary />,
     children: [
       { index: true, element: <HomePage /> },
+
+      // Aliases for the home page
+      { path: 'home', element: <HomePage /> },
+      { path: 'gallery', element: <HomePage /> },
+
       { path: ROUTE_SEGMENTS.COMPANY, element: <CompanyPage /> },
       { path: ROUTE_SEGMENTS.DOMAINS, element: <DomainsPage /> },
       { path: ROUTE_SEGMENTS.TECHNOLOGY, element: <TechnologyPage /> },
