@@ -111,10 +111,10 @@ export function StickyContainer({ children }) {
 export function DomainImage({ domain, imageRef }) {
   return (
     <motion.figure
-      className="group relative overflow-hidden border border-text-inverse/10 bg-text-inverse/5"
+      className="group relative  border border-text-inverse/10 bg-text-inverse/5"
       variants={revealItem}
     >
-      <div className="aspect-[16/11] overflow-hidden lg:aspect-[4/5] xl:aspect-[16/10]">
+      <div className="aspect-[16/11]  lg:aspect-[4/5] xl:aspect-[16/10]">
         <img
           ref={imageRef}
           alt={domain.imageAlt}
@@ -284,7 +284,7 @@ export function DomainsSection() {
     <section
       ref={sectionRef}
       aria-labelledby="engineering-domains-title"
-      className="relative isolate overflow-hidden bg-surface-inverse text-text-inverse"
+      className="relative isolate  bg-surface-inverse text-text-inverse"
     >
       <div
         aria-hidden="true"

@@ -13,19 +13,25 @@ import {
 
 export function RootLayout() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <SkipLink />
       <ScrollRestoration />
       <ScrollProgress />
       <GlobalCursor />
       <Navbar />
-      <main id="main-content" className="min-h-screen bg-background text-text-primary" tabIndex={-1}>
+
+      <main
+        id="main-content"
+        className="flex-1 bg-background text-text-primary"
+        tabIndex={-1}
+      >
         <Suspense fallback={<RouteFallback />}>
           <PageTransition />
         </Suspense>
       </main>
+
       <Footer />
       <BackToTop />
-    </>
+    </div>
   );
 }
