@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo.jsx';
 import { Instagram, Linkedin } from 'lucide-react';
+import { FOOTER_NAV_ITEMS } from './navigation.js';
+import { SITE_CONFIG } from '@/constants';
 
 export function Footer() {
   return (
@@ -36,39 +38,23 @@ export function Footer() {
 
             <nav>
               <ul className="flex gap-8 font-body text-body-small">
-                <li>
-                  <Link
-                    to="/"
-                    className="text-text-inverse/70 hover:text-text-inverse"
-                  >
-                    Home
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/products"
-                    className="text-text-inverse/70 hover:text-text-inverse"
-                  >
-                    Products
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/contact"
-                    className="text-text-inverse/70 hover:text-text-inverse"
-                  >
-                    Contact
-                  </Link>
-                </li>
+                {FOOTER_NAV_ITEMS.map((item) => (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      className="text-text-inverse/70 hover:text-text-inverse"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </nav>
 
             <div className="flex items-center gap-5">
 
               <a
-                href="https://www.instagram.com/stimulai_tech/"
+                href={SITE_CONFIG.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -78,7 +64,7 @@ export function Footer() {
               </a>
 
               <a
-                href="https://www.linkedin.com/company/stimulai-tech/"
+                href={SITE_CONFIG.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

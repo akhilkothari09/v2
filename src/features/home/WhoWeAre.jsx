@@ -95,7 +95,7 @@ export function EditorialImage({ imageRef }) {
         <img
           ref={imageRef}
           alt="Engineers reviewing prototype components and sensor assemblies inside a dark engineering studio."
-          className="size-full object-cover object-center"
+          className="size-full object-contain md:object-cover object-center"
           decoding="async"
           loading="lazy"
           sizes="(min-width: 1280px) 42vw, (min-width: 1024px) 46vw, 100vw"

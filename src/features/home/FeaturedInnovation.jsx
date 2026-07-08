@@ -104,7 +104,7 @@ export function ProductReveal({ imageRef }) {
           <img
             ref={imageRef}
             alt="RCX smart bicycle presented in a dark studio with soft spotlight."
-            className="size-full object-cover object-center"
+            className="size-full object-contain md:object-cover object-center"
             decoding="async"
             loading="lazy"
             sizes="(min-width: 1280px) 50vw, (min-width: 1024px) 48vw, 100vw"
@@ -224,7 +224,7 @@ export function FeaturedInnovation() {
     <section
       ref={sectionRef}
       aria-labelledby="featured-innovation-title"
-      className="relative isolate overflow-hidden bg-surface-inverse py-section-lg text-text-inverse [--rcx-spotlight-x:48%]"
+      className="relative isolate h-screen overflow-hidden bg-surface-inverse text-text-inverse [--rcx-spotlight-x:48%]"
     >
       <div
         aria-hidden="true"
@@ -241,24 +241,24 @@ export function FeaturedInnovation() {
       />
 
       <motion.div
-        className="mx-auto grid max-w-container px-container-sm md:px-container-md lg:px-container-lg gap-space-64 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:items-center"
+        className="mx-auto grid h-full max-w-container px-6 lg:px-12 gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:items-center pt-navbar"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.24 }}
         variants={revealContainer}
       >
         <div className="max-w-prose">
-          <motion.p className="font-body text-label text-accent" variants={revealItem}>
-
+          <motion.p className="text-xs font-medium uppercase tracking-[0.35em] text-accent leading-[1.2]" variants={revealItem}>
+            Featured Innovation
           </motion.p>
           <motion.p
-            className="mt-space-20 font-display text-display-m text-text-inverse md:text-display-l"
+            className="mt-4 font-display text-4xl text-text-inverse md:text-5xl font-extrabold leading-[1.1]"
             variants={revealItem}
           >
             RCX
           </motion.p>
           <h2
-            className="mt-space-16 font-display text-heading-xl text-text-inverse md:text-display-m"
+            className="mt-2 font-display text-heading-xl text-text-inverse md:text-display-m font-extrabold leading-[1.1]"
             id="featured-innovation-title"
           >
             <span className="block overflow-hidden">
@@ -272,12 +272,12 @@ export function FeaturedInnovation() {
               </motion.span>
             </span>
           </h2>
-          <motion.p className="mt-space-32 font-body text-body-l text-text-inverse/70" variants={revealItem}>
+          <motion.p className="mt-4 font-body text-base font-normal leading-[1.6] text-text-inverse/70" variants={revealItem}>
             RCX combines intelligent engineering, artificial intelligence, connected
             systems and precision design into a cycling experience shaped by the
             way people move, decide and perform.
           </motion.p>
-          <div className="mt-space-40">
+          <div className="mt-6">
             <CTAGroup />
           </div>
         </div>

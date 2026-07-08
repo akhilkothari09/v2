@@ -12,17 +12,11 @@ function useNavbarScrollState() {
 
   useEffect(() => {
     let frame = 0;
+    let lastY = window.scrollY;
 
     function update() {
       const currentY = window.scrollY;
-      const isScrollingDown = currentY > lastY;
-      const delta = Math.abs(currentY - lastY);
-
-      setState({
-        isHidden: currentY > 120 && isScrollingDown && delta > 4,
-        isScrolled: currentY > 12,
-      });
-
+      setIsScrolled(currentY > 12);
       lastY = currentY;
       frame = 0;
     }
@@ -75,7 +69,7 @@ export function Navbar() {
             : 'border-transparent bg-surface-inverse/40',
         )}
       >
-        <div className="mx-auto flex h-full w-full max-w-container items-center justify-between px-container-sm md:px-container-md lg:px-container-lg">
+        <div className="mx-auto flex h-full w-full max-w-container items-center justify-between px-6 lg:px-12">
           <Logo inverse />
 
           <div className="ml-auto flex items-center">

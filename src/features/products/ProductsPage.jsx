@@ -1,332 +1,302 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { RouteDocument } from '@/components/common';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Cpu,
-  Gauge,
-  LockKeyhole,
-  Map,
-  RadioTower,
-  ShieldCheck,
-} from 'lucide-react';
+import { ROUTES } from '@/constants';
+import { cn } from '@/utils';
 import { PRODUCTS_META } from './seo.js';
-import featuredRcxImage from '@/assets/images/featured-rcx.jpg';
+import rcxImage from '@/assets/images/featured-rcx.jpg';
 
+// ─── Data ────────────────────────────────────────────────────────────────────
 
-const carouselImages = [
-  {
-    label: 'Engineering view',
-    src: featuredRcxImage,
-    alt: 'RCX bicycle engineering feature view.',
-  },
+const hardwareSpecs = [
+  { label: 'Frame Set', value: 'Carbon Fibre T800', detail: 'Ultra-light, aerodynamic' },
+  { label: 'Drive Train', value: 'Shimano Di2 Ready', detail: '11/12 speed electronic' },
+  { label: 'Wheelset', value: 'Carbon Ceramic', detail: 'H 50, W 21/22, 1780g' },
+  { label: 'Braking', value: 'Hydraulic Disc', detail: '160mm centre locking' },
+  { label: 'Tires', value: 'Schwalbe Pro One', detail: 'Tubeless ready, 700C' },
+  { label: 'Module Weight', value: '2070 Grams', detail: 'Frame, fork, bar, post' },
 ];
 
-const featureItems = [
-  { label: 'Integrated GPS computer', icon: Map },
-  { label: 'AI theft prevention', icon: ShieldCheck },
-  { label: 'Geo-fencing and odometer', icon: LockKeyhole },
-  { label: 'Turn by turn navigation', icon: Gauge },
-  { label: 'Smart sensor integration', icon: Cpu },
-  { label: '4G, Bluetooth, ANT+ and WiFi', icon: RadioTower },
+const smartSpecs = [
+  { label: 'Security', value: 'AI Theft Prevention', detail: 'Intelligent lockdown' },
+  { label: 'Navigation', value: 'Integrated GPS', detail: 'Turn-by-turn on dash' },
+  { label: 'Tracking', value: 'Geo-Fencing', detail: 'With digital odometer' },
+  { label: 'Connectivity', value: '4G & Wi-Fi', detail: 'Bluetooth & ANT+ sync' },
+  { label: 'Ecosystem', value: 'Smart Sensors', detail: 'Real-time rider analytics' },
+  { label: 'Updates', value: 'OTA Ready', detail: 'Over-the-air firmware' },
 ];
 
-const specificationGroups = [
-  {
-    title: 'Frame Set',
-    items: [
-      ['Frame', 'Carbon Fibre T800 road frame, flat mounted disc brakes, 142 x 12 mm thru axle'],
-      ['Fork', 'Carbon fork with 100 x 12 mm axle, max tire size 700C, max 32C width'],
-      ['Headset', '1-1/2 (52 mm) top and 1-1/2 (52 mm) bottom'],
-    ],
-  },
-  {
-    title: 'Drive Train',
-    items: [
-      ['Shifter', 'LTWOO / Shimano, all variants including Di2'],
-      ['Front Derailleur', 'LTWOO / Shimano, all variants including Di2, 2 speed'],
-      ['Rear Derailleur', 'LTWOO / Shimano, all variants including Di2, 11/12 speed'],
-      ['Cassette', 'Shimano CS-R7000 11-32T / 11-34T'],
-      ['Crankset', 'Shimano 105 R7100 Hollowtech I 50-34 / 52-36, 165/170 mm crank'],
-      ['Chain', 'Shimano HG601'],
-    ],
-  },
-  {
-    title: 'Wheels',
-    items: [
-      ['Front Wheel', 'Carbon ceramic rim H 50, W 21/22, straight pull 24 spokes, sealed ceramic bearing hub'],
-      ['Rear Wheel', 'Carbon ceramic rim H 50, W 21/22, straight pull 24 spokes, sealed ceramic bearing hub'],
-      ['Tires', 'Schwalbe Pro One / One Plus, tubeless ready, 700C - 28/32'],
-    ],
-  },
-  {
-    title: 'Brakes',
-    items: [
-      ['System', 'Hydraulic disc brakes, 160 mm front / 160 mm rear rotors'],
-      ['Rotor', 'Centre locking disc rotor'],
-    ],
-  },
-  {
-    title: 'Components',
-    items: [
-      ['Seat Post', 'Carbon seat post with Di2 provision'],
-      ['Handle Bar', 'Carbon drop type 420 mm / 450 mm with integrated stem'],
-      ['Saddle', 'Selle Royal superlight saddle with carbon rails'],
-    ],
-  },
-  {
-    title: 'Weight',
-    items: [
-      ['Frame Module', '2070 g, frame + seat post + fork + handle bar'],
-      ['Wheelset', '1780 g / wheel set'],
-    ],
-  },
+const tabs = [
+  { id: 'hardware', label: 'Technical Specs', data: hardwareSpecs, accentOnLabel: true },
+  { id: 'smart', label: 'Smart Features', data: smartSpecs, accentOnLabel: false },
 ];
 
-function CarouselSlide({ image, index, isActive }) {
+// ─── Animation Variants ─────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
+
+const gridVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+  },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
+
+const gridItemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+};
+
+// ─── Sub-components ─────────────────────────────────────────────────────────
+
+function SpecCard({ item, accentOnLabel }) {
   return (
-    <figure
-      aria-hidden={!isActive}
-      className="relative size-full shrink-0"
-    >
-      {image.src ? (
-        <img
-          alt={isActive ? image.alt : ''}
-          className="size-full object-cover"
-          decoding="async"
-          loading={index === 0 ? 'eager' : 'lazy'}
-          src={image.src}
-        />
-      ) : null}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_54%,rgb(0_0_0/0.72)_100%)]"
-      />
-      {isActive ? (
-        <figcaption className="absolute bottom-0 left-0 right-0 bg-surface-inverse/88 px-space-16 py-space-12 font-body text-caption text-white backdrop-blur-[var(--motion-blur-soft)]">
-          {image.label}
-        </figcaption>
-      ) : null}
-    </figure>
-  );
-}
-
-function ImageCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeImage = carouselImages[activeIndex];
-
-  function showPrevious() {
-    setActiveIndex((index) => (index === 0 ? carouselImages.length - 1 : index - 1));
-  }
-
-  function showNext() {
-    setActiveIndex((index) => (index + 1) % carouselImages.length);
-  }
-
-  return (
-    <section aria-label="RCX image carousel" className="min-w-0">
-      <div className="relative aspect-[4/3] overflow-hidden border border-text-inverse/12 bg-text-inverse/5 shadow-elevated">
-        <div
-          className="flex size-full transition-transform duration-slow ease-luxury motion-reduce:transition-none"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {carouselImages.map((image, index) => (
-            <CarouselSlide
-              image={image}
-              index={index}
-              isActive={index === activeIndex}
-              key={image.label}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-space-16 flex items-center justify-between gap-space-16">
-        <p className="font-body text-caption text-white">
-          {String(activeIndex + 1).padStart(2, '0')} / {String(carouselImages.length).padStart(2, '0')}
-          <span className="ml-space-8 text-white">{activeImage.label}</span>
-        </p>
-        <div className="flex items-center gap-space-8">
-          <button
-            aria-label="Previous RCX image"
-            className="flex size-control-md items-center justify-center rounded-medium border border-white/24 bg-white/5 text-white shadow-hairline transition-ui duration-medium ease-luxury hover:border-accent hover:bg-white/10 focus-visible:outline-none focus-visible:shadow-focus motion-reduce:transition-none"
-            onClick={showPrevious}
-            type="button"
-          >
-            <ChevronLeft aria-hidden="true" className="size-icon-16" />
-          </button>
-          <button
-            aria-label="Next RCX image"
-            className="flex size-control-md items-center justify-center rounded-medium border border-white/24 bg-white/5 text-white shadow-hairline transition-ui duration-medium ease-luxury hover:border-accent hover:bg-white/10 focus-visible:outline-none focus-visible:shadow-focus motion-reduce:transition-none"
-            onClick={showNext}
-            type="button"
-          >
-            <ChevronRight aria-hidden="true" className="size-icon-16" />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-space-16 grid grid-cols-6 gap-space-8">
-        {carouselImages.map((image, index) => (
-          <button
-            aria-label={`Show ${image.label} image`}
-            aria-pressed={index === activeIndex}
-            className={[
-              'h-space-8 rounded-full transition-ui duration-medium ease-luxury motion-reduce:transition-none',
-              index === activeIndex ? 'bg-accent' : 'bg-text-inverse/18 hover:bg-text-inverse/36',
-            ].join(' ')}
-            key={image.label}
-            onClick={() => setActiveIndex(index)}
-            type="button"
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function FeatureItem({ feature }) {
-  const Icon = feature.icon;
-
-  return (
-    <li className="border-t border-text-inverse/12 py-space-20">
-      <div className="flex items-center gap-space-16">
-        <Icon aria-hidden="true" className="size-icon-20 shrink-0 text-accent" />
-        <span className="font-body text-body-small text-white">{feature.label}</span>
-      </div>
-    </li>
-  );
-}
-
-function SpecificationGroup({ group }) {
-  return (
-    <section aria-labelledby={`spec-${group.title.toLowerCase().replace(/\s+/g, '-')}`}>
-      <h2
-        className="border-b border-white/28 pb-space-12 font-heading text-heading-s text-white"
-        id={`spec-${group.title.toLowerCase().replace(/\s+/g, '-')}`}
+    <motion.div className="flex flex-col" variants={gridItemVariants}>
+      <span
+        className={cn(
+          'text-xs font-bold uppercase tracking-[0.2em] mb-1',
+          accentOnLabel ? 'text-accent' : 'text-text-inverse',
+        )}
       >
-        {group.title}
-      </h2>
-      <dl className="divide-y divide-white/16">
-        {group.items.map(([label, value]) => (
-          <div
-            className="grid gap-space-8 py-space-16 md:grid-cols-[11rem_1fr] md:gap-space-24"
-            key={`${group.title}-${label}`}
-          >
-            <dt className="font-body text-label text-white">{label}</dt>
-            <dd className="font-body text-body-small text-white">{value}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+        {item.label}
+      </span>
+      <span
+        className={cn(
+          'font-heading text-lg font-semibold',
+          accentOnLabel ? 'text-text-inverse' : 'text-accent',
+        )}
+      >
+        {item.value}
+      </span>
+      <span className="text-text-inverse/50 text-xs mt-1 font-body">{item.detail}</span>
+    </motion.div>
   );
 }
+
+function VerticalSidebar() {
+  return (
+    <div className="absolute right-0 top-0 h-full w-16 md:w-20 z-50 hidden lg:flex flex-col uppercase text-[10px] md:text-xs font-bold tracking-[0.6em] text-text-inverse/40 text-center border-l border-text-inverse/5 bg-black/40 backdrop-blur-md">
+      <div className="h-1/2 flex items-center justify-center transition-colors hover:bg-accent/10 cursor-pointer group border-b border-text-inverse/5">
+        <span
+          className="group-hover:text-accent transition-colors"
+          style={{ writingMode: 'vertical-lr', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
+        >
+          Concept
+        </span>
+      </div>
+      <div className="h-1/2 flex items-center justify-center transition-colors hover:bg-text-inverse/5 cursor-pointer group">
+        <span
+          className="group-hover:text-text-inverse transition-colors"
+          style={{ writingMode: 'vertical-lr', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
+        >
+          Design
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function HeroImageContainer() {
+  return (
+    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] max-w-[900px] z-30 pointer-events-none hidden md:flex justify-end">
+      <div className="w-full max-w-[800px] aspect-[2/1] border border-accent/20 rounded-3xl overflow-hidden bg-gradient-to-tr from-black/80 to-transparent backdrop-blur-sm shadow-2xl relative">
+        {/* Subtle grid background */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              'linear-gradient(0deg, rgb(255 255 255 / 0.15) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+        <img
+          alt="RCX smart bicycle concept view"
+          className="size-full object-contain md:object-cover object-center"
+          decoding="async"
+          fetchpriority="high"
+          src={rcxImage}
+        />
+        {/* Overlay vignette */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_64%_34%,transparent_0%,rgb(0_0_0/0.15)_42%,rgb(0_0_0/0.5)_100%)]"
+        />
+      </div>
+    </div>
+  );
+}
+
+function SpecsDashboard() {
+  const [activeTab, setActiveTab] = useState('hardware');
+  const activeTabData = tabs.find((t) => t.id === activeTab);
+
+  return (
+    <div className="w-full z-40 flex flex-col md:flex-row gap-6 bg-text-inverse/[0.02] border border-text-inverse/5 rounded-3xl p-6 backdrop-blur-md shadow-2xl relative">
+      {/* Left Sidebar (Tabs) */}
+      <div className="w-full md:w-1/4 flex flex-col gap-2 border-b md:border-b-0 md:border-r border-text-inverse/10 pb-4 md:pb-0 md:pr-4">
+        <p className="text-text-inverse/40 text-xs font-bold uppercase tracking-[0.2em] mb-2 pl-4 font-body">
+          System Analysis
+        </p>
+
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={cn(
+              'w-full text-left px-4 py-3 rounded-r-lg font-heading font-semibold text-sm tracking-wide transition-all flex items-center justify-between group',
+              activeTab === tab.id
+                ? 'text-accent border-l-[3px] border-accent bg-accent/10'
+                : 'text-text-inverse/50 border-l-[3px] border-transparent hover:text-text-inverse hover:bg-text-inverse/5',
+            )}
+            onClick={() => setActiveTab(tab.id)}
+            type="button"
+          >
+            <span>{tab.label}</span>
+            <span
+              className={cn(
+                'transition-all',
+                activeTab === tab.id
+                  ? 'text-accent opacity-100 translate-x-0'
+                  : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-1',
+              )}
+            >
+              →
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Right Content Area (Dynamic Grid) */}
+      <div className="w-full md:w-3/4 pl-0 md:pl-6 relative min-h-[200px] flex items-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            className="grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 w-full"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={gridVariants}
+          >
+            {activeTabData.data.map((item) => (
+              <SpecCard key={item.label} item={item} accentOnLabel={activeTabData.accentOnLabel} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Page ──────────────────────────────────────────────────────────────
 
 export function ProductsPage() {
   return (
     <RouteDocument meta={PRODUCTS_META}>
-      <main className="relative isolate overflow-hidden bg-surface-inverse text-white">
+      <main className="relative isolate h-screen w-full overflow-hidden bg-surface-inverse text-text-inverse">
+        {/* Background Accents */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-base bg-[linear-gradient(90deg,rgb(0_0_0/0.86)_0%,rgb(0_0_0/0.58)_48%,rgb(0_0_0/0.78)_100%)]"
+          className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent/10 rounded-full blur-[150px] pointer-events-none"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-base bg-[radial-gradient(circle_at_28%_18%,rgb(255_255_255/0.1),transparent_28%),radial-gradient(circle_at_78%_32%,rgb(183_24_43/0.13),transparent_28%),radial-gradient(circle_at_center,transparent_38%,rgb(0_0_0/0.62)_100%)]"
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-text-inverse/5 rounded-full blur-[120px] pointer-events-none"
         />
+
+        {/* Huge Background Text */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-base opacity-[0.1] mix-blend-overlay"
+          className="absolute top-1/4 left-0 w-full flex justify-center z-0 pointer-events-none select-none"
+        >
+          <h1 className="text-[20vw] font-display font-black text-text-inverse/[0.03] leading-none tracking-tighter">
+            RCX
+          </h1>
+        </div>
+
+        {/* Scan-line Overlay */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 opacity-[0.06] mix-blend-overlay"
           style={{
             backgroundImage:
-              'linear-gradient(0deg, rgb(255 255 255 / 0.18) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.12) 1px, transparent 1px)',
+              'linear-gradient(0deg, rgb(255 255 255 / 0.16) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px)',
             backgroundSize: '3px 3px',
           }}
         />
 
-        <section
-          aria-labelledby="rcx-title"
-          className="relative z-raised px-container-sm pb-section-md pt-[calc(var(--layout-navbar-height)+var(--space-64))] md:px-container-md lg:px-container-lg"
-        >
-          <div className="mx-auto grid max-w-container gap-space-64 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-            <div>
-              <p className="font-body text-label text-white">STIMULAI Product</p>
-              <h1
-                className="mt-space-20 font-display text-display-l text-white md:text-display-xl"
-                id="rcx-title"
+        {/* Vertical Sidebar */}
+        <VerticalSidebar />
+
+        {/* Main Content Wrapper */}
+        <div className="relative w-full h-full max-w-container mx-auto flex flex-col justify-between pt-20 pb-10 px-6 lg:pl-12 lg:pr-32 2xl:pr-12 z-10">
+          {/* Top Half: Hero & Image */}
+          <div className="flex justify-between items-center w-full relative flex-1 min-h-0">
+            {/* Left Copy Section */}
+            <motion.div
+              className="flex flex-col z-20 max-w-md"
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } } }}
+            >
+              <motion.p
+                className="text-xs md:text-sm font-bold tracking-[0.5em] text-accent uppercase mb-4 font-body"
+                variants={fadeUp}
+                custom={0}
               >
-                RCX
-              </h1>
-              <p className="mt-space-24 max-w-prose font-body text-body-l text-white">
-                A carbon road platform shaped around symmetry, connected intelligence
-                and precision riding hardware.
-              </p>
-
-              <div className="mt-space-40 grid grid-cols-2 border-y border-white/24 text-center">
-                <div className="border-r border-white/24 py-space-24">
-                  <p className="font-display text-heading-m text-white">2070 g</p>
-                  <p className="mt-space-8 font-body text-caption text-white">
-                    Frame module
-                  </p>
-                </div>
-                <div className="py-space-24">
-                  <p className="font-display text-heading-m text-white">32C</p>
-                  <p className="mt-space-8 font-body text-caption text-white">
-                    Max tire width
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <ImageCarousel />
-          </div>
-        </section>
-
-        <section className="relative z-raised border-y border-white/16 bg-white/5 px-container-sm py-section-sm backdrop-blur-[var(--motion-blur-soft)] md:px-container-md lg:px-container-lg">
-          <div className="mx-auto grid max-w-container gap-space-48 lg:grid-cols-[0.78fr_1fr]">
-            <div>
-              <p className="font-body text-label text-white">Intelligent Features</p>
-              <h2 className="mt-space-16 max-w-narrow font-heading text-heading-l text-white">
-                Built for precise riding data, security and connected movement.
-              </h2>
-            </div>
-            <ul className="grid md:grid-cols-2 md:gap-x-space-40" aria-label="RCX smart features">
-              {featureItems.map((feature) => (
-                <FeatureItem feature={feature} key={feature.label} />
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="rcx-specifications"
-          className="relative z-raised px-container-sm pb-section-md pt-section-sm md:px-container-md lg:px-container-lg"
-        >
-          <div className="mx-auto max-w-container">
-            <div className="grid gap-space-24 border-b border-white/16 pb-space-40 lg:grid-cols-[0.78fr_1fr]">
-              <div>
-                <p className="font-body text-label text-white">Technical Specification</p>
-                <h2
-                  className="mt-space-16 font-heading text-heading-l text-white"
-                  id="rcx-specifications"
+                The Next Evolution
+              </motion.p>
+              <motion.h2
+                className="text-6xl md:text-8xl font-display font-black text-text-inverse tracking-tighter mb-4 leading-[0.85]"
+                variants={fadeUp}
+                custom={1}
+              >
+                FUTURE
+              </motion.h2>
+              <motion.p
+                className="text-text-inverse/50 text-sm md:text-base leading-relaxed mb-8 font-body max-w-xs"
+                variants={fadeUp}
+                custom={2}
+              >
+                Symmetry in motion. Precision engineered for the modern rider.
+              </motion.p>
+              <motion.div variants={fadeUp} custom={3}>
+                <Link
+                  className="group inline-flex items-center gap-3 bg-accent hover:bg-accent-hover text-text-inverse text-xs md:text-sm font-bold py-4 px-10 rounded-full w-max uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(183,24,43,0.4)] transition-all duration-300 transform hover:scale-105 font-body"
+                  to={ROUTES.CONTACT}
                 >
-                  RCX symmetry specification
-                </h2>
-              </div>
-              <p className="max-w-prose font-body text-body-l text-white">
-                The listed build focuses on the strongest product signals: carbon frame
-                system, Di2-ready drivetrain options, carbon ceramic wheelset,
-                hydraulic braking and integrated smart connectivity.
-              </p>
-            </div>
+                  Pre-Order Now
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="size-icon-16 transition-transform duration-medium ease-luxury group-hover:translate-x-1"
+                  />
+                </Link>
+              </motion.div>
+            </motion.div>
 
-            <div className="mt-space-48 grid gap-x-space-64 gap-y-space-48 lg:grid-cols-2">
-              {specificationGroups.map((group) => (
-                <SpecificationGroup group={group} key={group.title} />
-              ))}
-            </div>
+            {/* Hero Image */}
+            <HeroImageContainer />
           </div>
-        </section>
+
+          {/* Bottom Half: Interactive Specs Dashboard */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <SpecsDashboard />
+          </motion.div>
+        </div>
       </main>
     </RouteDocument>
   );

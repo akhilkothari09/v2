@@ -118,7 +118,7 @@ export function Hero() {
     <section
       ref={rootRef}
       aria-labelledby="home-hero-title"
-      className="relative isolate flex min-h-screen overflow-hidden bg-surface-inverse text-text-inverse"
+      className="relative isolate flex h-screen overflow-hidden bg-surface-inverse text-text-inverse"
       onPointerLeave={handlePointerLeave}
       onPointerMove={handlePointerMove}
     >
@@ -134,7 +134,7 @@ export function Hero() {
           alt=""
           decoding="async"
           fetchPriority="high"
-          className="size-full object-cover object-center opacity-90"
+          className="size-full object-contain md:object-cover object-center opacity-90"
           initial={{
             opacity: 0,
             scale: 1.08,
@@ -168,7 +168,7 @@ export function Hero() {
         }}
       />
 
-      <div className="mx-auto flex min-h-screen w-full max-w-container items-center px-container-sm pb-space-80 pt-navbar md:px-container-md lg:px-container-lg">
+      <div className="mx-auto flex h-full w-full max-w-container items-center px-6 pb-20 pt-navbar lg:px-12">
         <motion.div
           className="mx-auto max-w-prose text-center lg:mx-0 lg:max-w-[54rem] lg:text-left"
           initial="hidden"
@@ -176,7 +176,7 @@ export function Hero() {
           variants={revealContainer}
         >
           <motion.p
-            className="font-body text-label text-text-inverse/76"
+            className="text-xs font-medium uppercase tracking-[0.35em] text-text-inverse/76 leading-[1.2]"
             variants={revealItem}
           >
             PREMIUM INTELLIGENT PRODUCTS
@@ -184,7 +184,7 @@ export function Hero() {
 
           <h1
             id="home-hero-title"
-            className="mt-space-24 font-display text-5xl md:text-6xl xl:text-7xl leading-[1.15] text-text-inverse"
+            className="mt-6 font-display text-5xl md:text-6xl xl:text-7xl leading-[1.1] text-text-inverse font-extrabold"
           >
             {headingLines.map((line) => (
               <span className="" key={line}>
@@ -196,14 +196,14 @@ export function Hero() {
           </h1>
 
           <motion.p
-            className="mx-auto mt-space-32 max-w-prose font-body text-body-l text-text-inverse/74 lg:mx-0"
+            className="mx-auto mt-6 max-w-prose font-body text-base font-normal leading-[1.6] text-text-inverse/74 lg:mx-0"
             variants={revealItem}
           >
             Engineered for today. Designed for tomorrow. Built to inspire every journey.
           </motion.p>
 
           <motion.div
-            className="mt-space-40 flex flex-col items-stretch gap-space-12 sm:flex-row sm:items-center sm:justify-center lg:justify-start"
+            className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start"
             variants={revealItem}
           >
             <Link
@@ -216,7 +216,7 @@ export function Hero() {
               Explore Our Work
               <ArrowRight
                 aria-hidden="true"
-                className="size-icon-16 transition-transform duration-medium ease-luxury group-hover:translate-x-space-4"
+                className="size-icon-16 transition-transform duration-medium ease-luxury group-hover:translate-x-1"
               />
             </Link>
             <Link

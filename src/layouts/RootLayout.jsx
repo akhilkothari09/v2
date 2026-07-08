@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { useLocation } from 'react-router-dom';
 import { RouteFallback } from '@/components/common';
 import {
   BackToTop,
@@ -12,6 +13,8 @@ import {
 } from '@/components/layout';
 
 export function RootLayout() {
+  const location = useLocation();
+
   return (
     <div className="flex min-h-screen flex-col">
       <SkipLink />

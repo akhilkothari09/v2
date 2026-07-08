@@ -12,6 +12,8 @@ const ProductsPage = lazyNamed(() => import('@/features/products'), 'ProductsPag
 const JournalPage = lazyNamed(() => import('@/features/journal'), 'JournalPage');
 const AboutPage = lazyNamed(() => import('@/features/about'), 'AboutPage');
 const ContactPage = lazyNamed(() => import('@/features/contact'), 'ContactPage');
+const GalleryPage = lazyNamed(() => import('@/features/gallery'), 'GalleryPage');
+const ReviewsPage = lazyNamed(() => import('@/features/reviews'), 'ReviewsPage');
 const NotFoundPage = lazyNamed(() => import('@/features/not-found'), 'NotFoundPage');
 
 export const appRoutes = [
@@ -24,7 +26,8 @@ export const appRoutes = [
 
       // Aliases for the home page
       { path: 'home', element: <HomePage /> },
-      { path: 'gallery', element: <HomePage /> },
+      { path: 'gallery', element: <GalleryPage /> },
+      { path: 'reviews', element: <ReviewsPage /> },
 
       { path: ROUTE_SEGMENTS.COMPANY, element: <CompanyPage /> },
       { path: ROUTE_SEGMENTS.DOMAINS, element: <DomainsPage /> },

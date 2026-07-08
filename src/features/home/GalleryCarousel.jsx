@@ -3,13 +3,11 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/utils';
 
-const galleryImageModules = import.meta.glob(
-  '../../assets/images/Gallery_image/*.{jpg,jpeg,JPG,JPEG,png,PNG,webp,WEBP}',
-  {
-    eager: true,
-    import: 'default',
-  },
-);
+import {
+  galleryImages,
+  getLoopedIndex,
+  getPrefersReducedMotion,
+} from './gallery.data.js';
 
 const revealContainer = {
   hidden: {},
@@ -38,49 +36,9 @@ const revealItem = {
   },
 };
 
-function getLoopedIndex(index, total) {
-  return (index + total) % total;
-}
-
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
-
-function getImageName(path) {
-  return path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? 'Gallery image';
-}
-
-function getImageTitle(path) {
-  const name = getImageName(path);
-
-  return name
-    .replace(/[_-]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
-function getPrefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-const galleryImages = Object.entries(galleryImageModules)
-  .sort(([firstPath], [secondPath]) =>
-    getImageName(firstPath).localeCompare(getImageName(secondPath), undefined, {
-      numeric: true,
-      sensitivity: 'base',
-    }),
-  )
-  .map(([path, src]) => {
-    const title = getImageTitle(path);
-
-    return {
-      src,
-      title,
-      category: 'Gallery',
-      alt: `${title} gallery image.`,
-    };
-  });
 
 export function GalleryCarousel() {
   const sectionRef = useRef(null);
@@ -317,7 +275,7 @@ export function GalleryCarousel() {
                     imageRefs.current[index] = node;
                   }}
                   alt={image.alt}
-                  className="absolute -left-[12.5%] top-0 h-full w-[125%] max-w-none object-cover object-center will-change-transform"
+                  className="absolute -left-[12.5%] top-0 h-full w-[125%] max-w-none object-contain md:object-cover object-center will-change-transform"
                   decoding="async"
                   loading={index < 2 ? 'eager' : 'lazy'}
                   onLoad={applyParallaxEffect}

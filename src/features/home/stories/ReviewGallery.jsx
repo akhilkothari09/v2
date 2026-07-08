@@ -58,7 +58,7 @@ export const ReviewGallery = memo(function ReviewGallery({
         >
           <img
             alt={image.alt}
-            className="absolute inset-0 size-full object-cover transition-transform duration-extra-slow ease-luxury group-hover:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            className="absolute inset-0 size-full object-contain md:object-cover transition-transform duration-extra-slow ease-luxury group-hover:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             decoding="async"
             loading="lazy"
             sizes="(min-width: 1024px) 54vw, (min-width: 768px) 50vw, 100vw"

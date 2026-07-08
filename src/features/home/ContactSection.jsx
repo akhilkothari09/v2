@@ -17,20 +17,20 @@ import { cn } from '@/utils';
 const contactDetails = [
   {
     label: 'Email',
-    value: 'connect@stimulai.in',
-    href: 'mailto:connect@stimulai.in',
+    value: SITE_CONFIG.contact.email,
+    href: `mailto:${SITE_CONFIG.contact.email}`,
     icon: Mail,
   },
   {
     label: 'Phone',
-    value: '+91 8860253376 ',
-    href: 'tel:+918860253376',
+    value: SITE_CONFIG.contact.phone,
+    href: `tel:${SITE_CONFIG.contact.phone.replace(/\s/g, '')}`,
     icon: Phone,
   },
   {
     label: 'Office',
-    value: 'Arcadia, South City II, Sector 49, Gurugram, Haryana 122018',
-    href: 'https://www.google.com/maps/@28.4181012,77.0498815,18z?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D',
+    value: SITE_CONFIG.contact.address,
+    href: SITE_CONFIG.contact.mapUrl,
     icon: MapPin,
   },
 ];
@@ -38,12 +38,12 @@ const contactDetails = [
 const socialLinks = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/stimulai-tech/',
+    href: SITE_CONFIG.social.linkedin,
     icon: Linkedin,
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/stimulai_tech/',
+    href: SITE_CONFIG.social.instagram,
     icon: Instagram,
   },
 ];
@@ -154,15 +154,15 @@ export function ContactCard() {
   return (
     <motion.aside
       aria-label="STIMULAI contact information"
-      className="h-full border border-text-inverse/10 bg-text-inverse/[0.035] p-space-24 shadow-elevated md:p-space-32"
+      className="h-full border border-text-inverse/10 bg-text-inverse/[0.035] p-6 shadow-elevated md:p-8"
       variants={revealItem}
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-space-24">
+      <div className="flex items-start justify-between gap-6">
         <div>
-          <p className="font-body text-label text-accent">Contact</p>
+          <p className="font-body text-xs font-medium uppercase tracking-[0.35em] text-accent leading-[1.2]">Contact</p>
 
-          <p className="mt-space-8 font-heading text-heading-s text-text-inverse">
+          <p className="mt-2 font-heading text-xl font-bold text-text-inverse leading-[1.2]">
             {SITE_CONFIG.name}
           </p>
         </div>
@@ -171,23 +171,23 @@ export function ContactCard() {
       </div>
 
       {/* Contact Details */}
-      <div className="mt-space-32 grid gap-space-24">
+      <div className="mt-8 grid gap-6">
         {contactDetails.map(({ href, icon: Icon, label, value }) => (
           <a
             key={label}
             href={href}
             target={label === "Office" ? "_blank" : undefined}
             rel={label === "Office" ? "noreferrer" : undefined}
-            className="group grid grid-cols-[auto_1fr] gap-space-16 border-t border-text-inverse/12 pt-space-20"
+            className="group grid grid-cols-[auto_1fr] gap-4 border-t border-text-inverse/12 pt-5"
           >
-            <Icon className="mt-space-4 size-icon-20 text-accent transition-transform duration-medium group-hover:scale-110" />
+            <Icon className="mt-1 size-icon-20 text-accent transition-transform duration-medium group-hover:scale-110" />
 
             <span>
-              <span className="block font-body text-caption text-text-inverse/44">
+              <span className="block font-body text-xs font-medium text-text-inverse/44 leading-[1.2] uppercase tracking-wider">
                 {label}
               </span>
 
-              <span className="mt-space-4 block font-body text-body-small text-text-inverse/72 transition-colors duration-medium group-hover:text-text-inverse">
+              <span className="mt-1 block font-body text-sm font-normal text-text-inverse/72 transition-colors duration-medium group-hover:text-text-inverse leading-[1.6]">
                 {value}
               </span>
             </span>
@@ -224,17 +224,17 @@ export function ContactMap() {
       />
 
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-space-32">
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
 
         <div className="flex h-16 w-16 items-center justify-center rounded-full border border-accent/40 bg-accent/10 transition-transform duration-300 group-hover:scale-110">
           <MapPin className="size-icon-28 text-accent" />
         </div>
 
-        <h3 className="mt-space-24 font-heading text-heading-s text-text-inverse">
+        <h3 className="mt-6 font-heading text-xl font-bold text-text-inverse leading-[1.2]">
           Visit Our Office
         </h3>
 
-        <p className="mt-space-16 max-w-xs font-body text-body-small text-text-inverse/72">
+        <p className="mt-4 max-w-xs font-body text-sm font-normal text-text-inverse/72 leading-[1.6]">
           Arcadia, South City II
           <br />
           Sector 49
@@ -242,7 +242,7 @@ export function ContactMap() {
           Gurugram, Haryana
         </p>
 
-        <span className="mt-space-32 inline-flex rounded-full border border-accent px-space-20 py-space-10 font-body text-caption text-accent transition-all duration-300 group-hover:bg-accent group-hover:text-white">
+        <span className="mt-8 inline-flex rounded-full border border-accent px-5 py-2 font-body text-xs font-medium text-accent transition-all duration-300 group-hover:bg-accent group-hover:text-white leading-[1.2] uppercase tracking-wider">
           Open in Google Maps →
         </span>
 
@@ -310,7 +310,7 @@ export function ContactSection() {
   return (
     <section
       aria-labelledby="home-contact-title"
-      className="relative isolate overflow-hidden bg-surface-inverse px-container-sm pt-space-80 pb-space-80 text-text-inverse md:px-container-md md:pt-space-96 md:pb-space-96 lg:px-container-lg lg:pt-space-120 lg:pb-space-120"
+      className="relative isolate h-screen overflow-hidden bg-surface-inverse px-6 pt-navbar pb-12 text-text-inverse lg:px-12 flex items-center"
     >
       {/* Background */}
       <div
@@ -337,30 +337,31 @@ export function ContactSection() {
       >
         {/* Heading */}
         <motion.div variants={revealItem}>
-          <p className="font-body text-label text-accent">
+          <p className="font-body text-xs font-medium uppercase tracking-[0.35em] text-accent leading-[1.2]">
             Connect
           </p>
 
           <h2
             id="home-contact-title"
             className="
-              mt-space-12
+              mt-3
               max-w-5xl
               font-display
               text-white
-              text-4xl
-              sm:text-5xl
-              md:text-6xl
-              lg:text-7xl
-              xl:text-[84px]
-              leading-[0.9]
-              tracking-[-0.04em]
+              text-3xl
+              sm:text-4xl
+              md:text-5xl
+              lg:text-6xl
+              xl:text-[72px]
+              font-extrabold
+              leading-[1.1]
+              tracking-tight
             "
           >
             Let's Build The Future Together.
           </h2>
 
-          <p className="mt-space-24 max-w-2xl font-body text-body-l text-text-inverse/68">
+          <p className="mt-4 max-w-2xl font-body text-base font-normal leading-[1.6] text-text-inverse/68">
             Innovators, partners, customers and researchers are invited
             to connect with STIMULAI to shape intelligent engineering
             into real systems.
@@ -370,7 +371,7 @@ export function ContactSection() {
         {/* Contact + Map */}
         <motion.div
           variants={revealItem}
-          className="mt-space-56 grid grid-cols-1 gap-space-32 lg:grid-cols-2"
+          className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2"
         >
           <ContactCard />
           <ContactMap />

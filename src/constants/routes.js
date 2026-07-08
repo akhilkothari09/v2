@@ -9,6 +9,8 @@ export const ROUTE_SEGMENTS = Object.freeze({
   JOURNAL: 'journal',
   ABOUT: 'about',
   CONTACT: 'contact',
+  GALLERY: 'gallery',
+  REVIEWS: 'reviews',
   NOT_FOUND: '404',
 });
 
@@ -23,6 +25,8 @@ export const ROUTES = Object.freeze({
   JOURNAL: '/journal',
   ABOUT: '/about',
   CONTACT: '/contact',
+  GALLERY: '/gallery',
+  REVIEWS: '/reviews',
   NOT_FOUND: '/404',
 });
 

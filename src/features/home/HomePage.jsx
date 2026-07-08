@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { RouteDocument } from '@/components/common';
-import { DomainSegments } from './DomainSegments.jsx';
+//import { DomainSegments } from './DomainSegments.jsx';
+import { DomainsSection } from './DomainsSection.jsx';
 import { FeaturedInnovation } from './FeaturedInnovation.jsx';
-import { GalleryCarousel } from './GalleryCarousel.jsx';
 import { Hero } from './Hero.jsx';
+import { LightboxGallery } from './LightboxGallery.jsx';
 import { HOME_META } from './seo.js';
 import { StoriesFromRoad } from './stories/StoriesFromRoad.jsx';
 
@@ -38,9 +39,10 @@ export function HomePage() {
   return (
     <RouteDocument meta={HOME_META}>
       <Hero />
-      <DomainSegments />
+    
+      <DomainsSection />
       <FeaturedInnovation />
-      <GalleryCarousel />
+      <LightboxGallery />
       <StoriesFromRoad />
     </RouteDocument>
   );
