@@ -179,7 +179,6 @@ export function Hero() {
             className="text-xs font-medium uppercase tracking-[0.35em] text-text-inverse/76 leading-[1.2]"
             variants={revealItem}
           >
-            PREMIUM INTELLIGENT PRODUCTS
           </motion.p>
 
           <h1

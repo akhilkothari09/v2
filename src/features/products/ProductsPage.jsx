@@ -109,8 +109,8 @@ function VerticalSidebar() {
 
 function HeroImageContainer() {
   return (
-    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] max-w-[900px] z-30 pointer-events-none hidden md:flex justify-end">
-      <div className="w-full max-w-[800px] aspect-[2/1] border border-accent/20 rounded-3xl overflow-hidden bg-gradient-to-tr from-black/80 to-transparent backdrop-blur-sm shadow-2xl relative">
+    <div className="relative lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-[55%] max-w-full lg:max-w-[900px] z-30 pointer-events-none flex justify-center lg:justify-end mt-6 lg:mt-0">
+      <div className="w-full max-w-[500px] lg:max-w-[800px] aspect-[2/1] border border-accent/20 rounded-3xl overflow-hidden bg-gradient-to-tr from-black/80 to-transparent backdrop-blur-sm shadow-2xl relative">
         {/* Subtle grid background */}
         <div
           aria-hidden="true"
@@ -203,7 +203,7 @@ function SpecsDashboard() {
 export function ProductsPage() {
   return (
     <RouteDocument meta={PRODUCTS_META}>
-      <main className="relative isolate h-screen w-full overflow-hidden bg-surface-inverse text-text-inverse">
+      <main className="relative isolate min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden bg-surface-inverse text-text-inverse">
         {/* Background Accents */}
         <div
           aria-hidden="true"
@@ -239,9 +239,9 @@ export function ProductsPage() {
         <VerticalSidebar />
 
         {/* Main Content Wrapper */}
-        <div className="relative w-full h-full max-w-container mx-auto flex flex-col justify-between pt-20 pb-10 px-6 lg:pl-12 lg:pr-32 2xl:pr-12 z-10">
+        <div className="relative w-full min-h-screen lg:h-full max-w-container mx-auto flex flex-col justify-between pt-24 pb-10 px-6 lg:pl-12 lg:pr-32 2xl:pr-12 z-10 gap-12 lg:gap-6">
           {/* Top Half: Hero & Image */}
-          <div className="flex justify-between items-center w-full relative flex-1 min-h-0">
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center w-full relative flex-1 min-h-0 gap-8 lg:gap-0">
             {/* Left Copy Section */}
             <motion.div
               className="flex flex-col z-20 max-w-md"
@@ -257,7 +257,7 @@ export function ProductsPage() {
                 The Next Evolution
               </motion.p>
               <motion.h2
-                className="text-6xl md:text-8xl font-display font-black text-text-inverse tracking-tighter mb-4 leading-[0.85]"
+                className="text-5xl sm:text-7xl lg:text-8xl font-display font-black text-text-inverse tracking-tighter mb-4 leading-[0.85]"
                 variants={fadeUp}
                 custom={1}
               >
