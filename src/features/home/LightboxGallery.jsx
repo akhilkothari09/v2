@@ -187,7 +187,7 @@ export function LightboxGallery() {
             <motion.div
               aria-label="StimulAI image gallery"
               className={cn(
-                'grid grid-cols-4 gap-2 md:gap-4 w-full transition-[filter,opacity] duration-500',
+                'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 w-full transition-[filter,opacity] duration-500',
                 isOpen && 'grayscale opacity-30'
               )}
               variants={revealContainer}

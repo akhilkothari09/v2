@@ -224,7 +224,7 @@ export function FeaturedInnovation() {
     <section
       ref={sectionRef}
       aria-labelledby="featured-innovation-title"
-      className="relative isolate min-h-screen lg:h-screen lg:overflow-hidden bg-surface-inverse text-text-inverse [--rcx-spotlight-x:48%] pb-12 lg:pb-0"
+      className="relative isolate min-h-screen lg:h-screen overflow-hidden bg-surface-inverse text-text-inverse [--rcx-spotlight-x:48%] pb-12 lg:pb-0"
     >
       <div
         aria-hidden="true"

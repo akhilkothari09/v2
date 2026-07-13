@@ -31,7 +31,7 @@ const itemVariants = {
 
 export function DomainsSection() {
   return (
-    <section className="relative min-h-screen lg:h-screen lg:overflow-hidden bg-surface-inverse text-text-inverse pb-12 lg:pb-0">
+    <section className="relative min-h-screen lg:h-screen overflow-hidden bg-surface-inverse text-text-inverse pb-12 lg:pb-0">
 
       {/* Background Glow */}
 

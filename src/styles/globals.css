@@ -181,6 +181,7 @@
   html {
     min-height: 100%;
     scroll-behavior: auto;
+    overflow-x: hidden;
   }
 
   body {
@@ -190,6 +191,7 @@
     color: rgb(var(--color-text-primary));
     font-size: var(--type-body-m-size);
     line-height: var(--type-body-m-line-height);
+    overflow-x: hidden;
   }
 
   #root {

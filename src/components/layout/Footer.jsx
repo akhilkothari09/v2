@@ -37,7 +37,7 @@ export function Footer() {
           <div className="flex flex-col items-start gap-6 lg:items-end">
 
             <nav>
-              <ul className="flex gap-8 font-body text-body-small">
+              <ul className="flex flex-wrap gap-8 font-body text-body-small">
                 {FOOTER_NAV_ITEMS.map((item) => (
                   <li key={item.to}>
                     <Link
