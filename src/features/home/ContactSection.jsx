@@ -201,7 +201,7 @@ export function ContactMap() {
   return (
     <motion.a
       variants={revealItem}
-      href="https://www.google.com/maps/@28.4181012,77.0498815,18z?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D"
+      href={SITE_CONFIG.contact.mapUrl}
       target="_blank"
       rel="noreferrer"
       className="group relative h-full min-h-[360px] overflow-hidden border border-text-inverse/10 bg-surface-inverse lg:min-h-[420px]"
