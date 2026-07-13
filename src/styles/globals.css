@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --color-background: 248 248 246;
+    --color-surface: 255 255 253;
+    --color-surface-elevated: 242 243 240;
+    --color-surface-inverse: 17 17 17;
+    --color-text-primary: 17 17 17;
+    --color-text-secondary: 70 74 78;
+    --color-text-muted: 113 117 121;
+    --color-text-inverse: 250 250 248;
+    --color-accent: 183 24 43;
+    --color-accent-hover: 143 18 33;
+    --color-accent-subtle: 248 232 235;
+    --color-accent-muted: 219 158 166;
+    --color-accent-contrast: 255 255 253;
+    --color-success: 31 122 85;
+    --color-success-subtle: 229 244 237;
+    --color-success-contrast: 255 255 253;
+    --color-warning: 161 112 24;
+    --color-warning-subtle: 249 239 216;
+    --color-warning-contrast: 17 17 17;
+    --color-error: 174 43 36;
+    --color-error-subtle: 249 231 229;
+    --color-error-contrast: 255 255 253;
+    --color-border: 216 216 210;
+    --color-border-strong: 176 177 171;
+    --color-border-muted: 232 232 226;
+    --color-divider: 228 228 221;
+    --color-overlay: 17 17 17;
+    --color-hover: 17 17 17;
+    --color-focus: 183 24 43;
+    --color-disabled: 226 226 220;
+    --color-disabled-bg: 232 232 226;
+    --color-disabled-text: 145 148 151;
+    --color-disabled-border: 218 218 212;
+    --color-skeleton: 235 235 229;
+    --color-scrollbar-thumb: 189 190 184;
+    --color-scrollbar-track: 244 244 239;
+    --color-selection: 248 232 235;
+    --color-selection-text: 17 17 17;
+
+    --font-display: 'Michroma', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans-serif;
+    --font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --tracking-display: 0em;
+    --tracking-heading: 0em;
+    --tracking-body: 0em;
+    --tracking-caption: 0em;
+    --tracking-label: 0em;
+    --tracking-button: 0em;
+    --tracking-navigation: 0em;
+
+    --leading-tight: 1;
+    --leading-snug: 1.08;
+    --leading-normal: 1.45;
+    --leading-relaxed: 1.6;
+    --leading-spacious: 1.75;
+
+    --type-display-xl-size: clamp(4rem, 8vw, 7.5rem);
+    --type-display-xl-line-height: 0.96;
+    --type-display-l-size: clamp(3rem, 6vw, 5.5rem);
+    --type-display-l-line-height: 0.98;
+    --type-display-m-size: clamp(2.25rem, 4.6vw, 4rem);
+    --type-display-m-line-height: 1;
+    --type-heading-xl-size: clamp(2rem, 3.6vw, 3.25rem);
+    --type-heading-xl-line-height: 1.04;
+    --type-heading-l-size: clamp(1.75rem, 3vw, 2.5rem);
+    --type-heading-l-line-height: 1.08;
+    --type-heading-m-size: clamp(1.5rem, 2.4vw, 2rem);
+    --type-heading-m-line-height: 1.14;
+    --type-heading-s-size: clamp(1.25rem, 1.7vw, 1.5rem);
+    --type-heading-s-line-height: 1.2;
+    --type-body-xl-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    --type-body-xl-line-height: 1.55;
+    --type-body-l-size: clamp(1rem, 1.35vw, 1.125rem);
+    --type-body-l-line-height: 1.6;
+    --type-body-m-size: 1rem;
+    --type-body-m-line-height: 1.6;
+    --type-body-small-size: 0.875rem;
+    --type-body-small-line-height: 1.55;
+    --type-caption-size: 0.75rem;
+    --type-caption-line-height: 1.45;
+    --type-label-size: 0.8125rem;
+    --type-label-line-height: 1.35;
+    --type-button-size: 0.875rem;
+    --type-button-line-height: 1;
+    --type-navigation-size: 0.875rem;
+    --type-navigation-line-height: 1.2;
+
+    --space-4: 0.25rem;
+    --space-8: 0.5rem;
+    --space-12: 0.75rem;
+    --space-16: 1rem;
+    --space-24: 1.5rem;
+    --space-32: 2rem;
+    --space-40: 2.5rem;
+    --space-48: 3rem;
+    --space-64: 4rem;
+    --space-80: 5rem;
+    --space-96: 6rem;
+    --space-120: 7.5rem;
+    --space-160: 10rem;
+    --space-200: 12.5rem;
+
+    --control-sm: 2.25rem;
+    --control-md: 2.75rem;
+    --control-lg: 3.25rem;
+    --icon-16: 1rem;
+    --icon-20: 1.25rem;
+    --icon-24: 1.5rem;
+    --icon-32: 2rem;
+    --icon-48: 3rem;
+
+    --radius-small: 0.25rem;
+    --radius-medium: 0.5rem;
+    --radius-large: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    --shadow-hairline: 0 0 0 1px rgb(var(--color-border-muted) / 0.9);
+    --shadow-soft: 0 14px 42px rgb(var(--color-text-primary) / 0.06);
+    --shadow-elevated: 0 24px 64px rgb(var(--color-text-primary) / 0.08);
+    --shadow-focus: 0 0 0 3px rgb(var(--color-focus) / 0.24);
+    --shadow-inset: inset 0 0 0 1px rgb(var(--color-border-muted) / 0.9);
+
+    --container-padding-sm: clamp(1rem, 5vw, 1.5rem);
+    --container-padding-md: clamp(1.5rem, 5vw, 3rem);
+    --container-padding-lg: clamp(2rem, 6vw, 5rem);
+    --layout-container-width: 90rem;
+    --layout-content-width: 72rem;
+    --layout-prose-width: 44rem;
+    --layout-narrow-width: 36rem;
+    --layout-navbar-height: 5rem;
+    --layout-footer-height: 22rem;
+    --layout-hero-height: min(52rem, 100svh);
+    --layout-scroll-progress-height: 2px;
+    --section-padding-sm: clamp(3rem, 7vw, 5rem);
+    --section-padding-md: clamp(5rem, 10vw, 8rem);
+    --section-padding-lg: clamp(7.5rem, 14vw, 12.5rem);
+
+    --motion-duration-fast: 140ms;
+    --motion-duration-medium: 240ms;
+    --motion-duration-slow: 420ms;
+    --motion-duration-extra-slow: 700ms;
+    --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --motion-ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-ease-entrance: cubic-bezier(0.2, 0, 0, 1);
+    --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --motion-hover-scale: 1.01;
+    --motion-active-scale: 0.985;
+    --motion-fade-distance: 0.75rem;
+    --motion-reveal-distance: 1.5rem;
+    --motion-blur-soft: 0.75rem;
+    --motion-blur-reveal: 1rem;
+    --motion-scroll-speed: 1;
+    --opacity-disabled: 0.42;
+    --opacity-muted: 0.68;
+    --opacity-overlay: 0.58;
+
+    font-family: var(--font-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    min-height: 100%;
+    scroll-behavior: auto;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100%;
+    margin: 0;
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-text-primary));
+    font-size: var(--type-body-m-size);
+    line-height: var(--type-body-m-line-height);
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  *:focus-visible {
+    outline: 2px solid rgb(var(--color-focus));
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(var(--color-selection));
+    color: rgb(var(--color-selection-text));
+  }
+
+  * {
+    scrollbar-color: rgb(var(--color-scrollbar-thumb)) rgb(var(--color-scrollbar-track));
+    scrollbar-width: thin;
+  }
+
+  *::-webkit-scrollbar {
+    height: var(--space-8);
+    width: var(--space-8);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgb(var(--color-scrollbar-track));
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-scrollbar-thumb));
+    border-radius: var(--radius-full);
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
