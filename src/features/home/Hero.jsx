@@ -134,7 +134,7 @@ export function Hero() {
           alt=""
           decoding="async"
           fetchPriority="high"
-          className="size-full object-contain md:object-cover object-center opacity-90"
+          className="size-full object-cover object-center opacity-90"
           initial={{
             opacity: 0,
             scale: 1.08,
@@ -183,7 +183,7 @@ export function Hero() {
 
           <h1
             id="home-hero-title"
-            className="mt-6 font-display text-5xl md:text-6xl xl:text-7xl leading-[1.1] text-text-inverse font-extrabold"
+            className="mt-6 font-display text-3xl sm:text-5xl md:text-6xl xl:text-7xl leading-[1.1] text-text-inverse font-extrabold"
           >
             {headingLines.map((line) => (
               <span className="" key={line}>

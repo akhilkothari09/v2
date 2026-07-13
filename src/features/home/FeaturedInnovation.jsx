@@ -224,7 +224,7 @@ export function FeaturedInnovation() {
     <section
       ref={sectionRef}
       aria-labelledby="featured-innovation-title"
-      className="relative isolate h-screen overflow-hidden bg-surface-inverse text-text-inverse [--rcx-spotlight-x:48%]"
+      className="relative isolate min-h-screen lg:h-screen lg:overflow-hidden bg-surface-inverse text-text-inverse [--rcx-spotlight-x:48%] pb-12 lg:pb-0"
     >
       <div
         aria-hidden="true"
@@ -241,7 +241,7 @@ export function FeaturedInnovation() {
       />
 
       <motion.div
-        className="mx-auto grid h-full max-w-container px-6 lg:px-12 gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:items-center pt-navbar"
+        className="mx-auto grid min-h-full max-w-container px-6 lg:px-12 gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:items-center pt-navbar"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.24 }}

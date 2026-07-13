@@ -31,7 +31,7 @@ const itemVariants = {
 
 export function DomainsSection() {
   return (
-    <section className="relative h-screen overflow-hidden bg-surface-inverse text-text-inverse">
+    <section className="relative min-h-screen lg:h-screen lg:overflow-hidden bg-surface-inverse text-text-inverse pb-12 lg:pb-0">
 
       {/* Background Glow */}
 
@@ -40,7 +40,7 @@ export function DomainsSection() {
         className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(183,24,43,.18),transparent_28%),radial-gradient(circle_at_90%_70%,rgba(255,255,255,.04),transparent_35%)]"
       />
 
-      <div className="relative mx-auto flex h-full max-w-container flex-col justify-center px-6 py-10 pt-[calc(var(--layout-navbar-height)+2rem)] lg:px-12">
+      <div className="relative mx-auto flex min-h-full max-w-container flex-col justify-center px-6 py-10 pt-[calc(var(--layout-navbar-height)+2rem)] lg:px-12">
 
         {/* Header */}
 
@@ -88,7 +88,7 @@ export function DomainsSection() {
             once: true,
             amount: 0.2,
           }}
-          className="grid flex-1 grid-cols-2 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 lg:mt-0 flex-1"
         >
           {domains.map((domain) => (
             <motion.div

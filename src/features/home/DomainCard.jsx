@@ -18,7 +18,7 @@ export default function DomainCard({ domain }) {
           transition={{ duration: 0.8 }}
           src={domain.image}
           alt={domain.title}
-          className="h-full w-full object-contain md:object-cover object-center"
+          className="h-full w-full object-cover object-center"
         />
 
         {/* Dark Overlay */}

@@ -310,7 +310,7 @@ export function ContactSection() {
   return (
     <section
       aria-labelledby="home-contact-title"
-      className="relative isolate min-h-screen overflow-x-hidden bg-surface-inverse px-6 pt-navbar pb-12 text-text-inverse lg:px-12 flex items-center"
+      className="relative isolate min-h-screen overflow-x-hidden bg-surface-inverse px-6 pt-[calc(var(--layout-navbar-height)+2rem)] pb-12 text-text-inverse lg:px-12 md:flex md:items-center md:pt-navbar"
     >
       {/* Background */}
       <div
